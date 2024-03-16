@@ -41,12 +41,22 @@ const Table = ({
       id: "actions",
       header: "Actions",
       cell: (info) => (
-        <button
-          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-          onClick={() => onDelete(info.row.original.id)}
-        >
-          Delete
-        </button>
+        <>
+        <div className="flex gap-2">
+          <button
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+            onClick={() => onDelete(info.row.original.id)}
+          >
+            Delete
+          </button>
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            onClick={() => console.log(info.row.original)}
+          >
+            Edit
+          </button>
+        </div>
+        </>
       ),
     }),
   ];

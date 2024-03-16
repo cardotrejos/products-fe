@@ -1,32 +1,33 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Table from "../components/Table";
+import Form from "../components/Form";
+import { useQuery } from "@tanstack/react-query";
+import { getAllProducts } from "../api/products";
 
 const ProductsPage = () => {
-  const [products, setProducts] = useState([]);
-  const fetchProducts = async () => {
-    try {
-      const response = await fetch("http://localhost:3000/products");
-      if (!response.ok) throw new Error("Network response was not ok");
-      const data = await response.json();
-      setProducts(data);
-    } catch (error) {
-      console.error("There was a problem with fetch operation:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+  const { data: products, error, isError, isLoading } = useQuery({
+    queryKey: ["products"],
+    queryFn: getAllProducts,
+  });
 
   const onDelete = async (id: any) => {
     console.log("id", id);
+  }
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error: {error.message}</div>;
   }
 
   return (
     <div>
       <h1>Products</h1>
       <Table products={products} onDelete={onDelete} />
+      <Form />
     </div>
   );
 };
