@@ -13,8 +13,6 @@ export const deleteProduct = async (id: any) => {
 };
 
 export const updateProduct = async (id: any, data: any) => {
-  try {
-    let data;
     const response = await fetch(`http://localhost:3000/products/${id}`, {
       method: "PUT",
       headers: {
@@ -23,16 +21,10 @@ export const updateProduct = async (id: any, data: any) => {
       body: JSON.stringify(data),
     });
     if (!response.ok) throw new Error("Network response was not ok");
-    data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("There was a problem with fetch operation:", error);
-  }
+    return response.json();
 };
 
 export const createProduct = async (data: any) => {
-  try {
-    let data;
     const response = await fetch(`http://localhost:3000/products`, {
       method: "POST",
       headers: {
@@ -41,9 +33,5 @@ export const createProduct = async (data: any) => {
       body: JSON.stringify(data),
     });
     if (!response.ok) throw new Error("Network response was not ok");
-    data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("There was a problem with fetch operation:", error);
-  }
+    return response.json();
 };
