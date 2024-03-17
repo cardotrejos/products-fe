@@ -1,14 +1,20 @@
 "use client";
 import { useState } from "react";
+import useLogin from "./hooks/useLogin";
+
 
 export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = async (e: { preventDefault: () => void; }) => {
+  const { login, isLoading, error } = useLogin();
+
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    console.log("Login Attempt:", { username, password });
+    login({ username, password });
   };
+
+  if (isLoading) return <div>Loading...</div>;
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
@@ -54,6 +60,7 @@ export default function Login() {
             Sign In
           </button>
         </div>
+        {error && <p className="text-red-500">Login Failed: {error.message}</p>}
       </form>
     </div>
   );
