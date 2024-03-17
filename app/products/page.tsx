@@ -1,34 +1,24 @@
 "use client";
 import Table from "../components/Table";
-import Form from "../components/Form";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteProduct, getAllProducts } from "../api/products";
 import Modal from "../components/Modal";
 import { useState } from "react";
+import { UpdateProduct } from "../types/products";
+import { useDeleteProduct, useProducts } from "../hooks/useProducts";
 
 const ProductsPage = () => {
   const [openModal, setModal] = useState<boolean>(false);
-
+  const { data: products, error, isError, isLoading } = useProducts();
+  const { mutate: deleteProduct } = useDeleteProduct();
   const handleModal = () => {
     setModal(!openModal);
   }
 
-  const queryClient = useQueryClient();
+  const onDelete = (id: number) => {
+    deleteProduct(id);
+  };
 
-  const { data: products, error, isError, isLoading } = useQuery({
-    queryKey: ["products"],
-    queryFn: getAllProducts,
-  });
-
-  const { mutate } = useMutation({
-    mutationFn: deleteProduct,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["products"] });
-    },
-  })
-
-  const onDelete = (id: any) => {
-    mutate(id);
+  const onEdit = (id: number, data: UpdateProduct) => {
+    console.log("edit", id, data);
   }
 
   if (isLoading) {
@@ -41,9 +31,9 @@ const ProductsPage = () => {
 
   return (
     <div>
-      <h1>Products</h1>
-      <button onClick={handleModal}>Open modal</button>
-      <Table products={products} onDelete={onDelete} />
+      <h1 className="text-2xl font-bold">Products</h1>
+      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded my-4" onClick={handleModal}>Create product</button>
+      <Table products={products} onDelete={onDelete} onEdit={onEdit} />
       <Modal openModal={openModal} handleModal={handleModal} />
     </div>
   );

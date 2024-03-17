@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { CreateProduct, UpdateProduct } from "../types/products";
 
 const productSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -22,13 +23,10 @@ const Form = () => {
     },
   });
 
-  const onSubmit = (data: any) => console.log(data);
+  const onSubmit = (data: UpdateProduct | CreateProduct) => console.log(data);
 
   return (
     <div className="flex flex-col items-center justify-center bg-transparent p-10">
-      <h1 className="text-2xl font-semibold text-gray-200 mb-6">
-        Add new product
-      </h1>
       <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-md">
         <div className="mb-4">
           <label

@@ -7,20 +7,16 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-}
+import { Product, Products } from "../types/products";
 
 const Table = ({
   products,
   onDelete,
+  onEdit,
 }: {
-  products: Product[];
-  onDelete: (id: any) => void;
+  products: Products | undefined;
+  onDelete: (id: number) => void;
+  onEdit: (id: number, data: Product) => void;
 }) => {
   const columnHelper = createColumnHelper<Product>();
 
@@ -42,26 +38,26 @@ const Table = ({
       header: "Actions",
       cell: (info) => (
         <>
-        <div className="flex gap-2">
-          <button
-            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-            onClick={() => onDelete(info.row.original.id)}
-          >
-            Delete
-          </button>
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            onClick={() => console.log(info.row.original)}
-          >
-            Edit
-          </button>
-        </div>
+          <div className="flex gap-2">
+            <button
+              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+              onClick={() => onDelete(info.row.original.id)}
+            >
+              Delete
+            </button>
+            <button
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              onClick={() => onEdit(info.row.original.id, info.row.original)}
+            >
+              Edit
+            </button>
+          </div>
         </>
       ),
     }),
   ];
   const table = useReactTable({
-    data: products,
+    data: products || [],
     columns,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
