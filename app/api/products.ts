@@ -1,6 +1,6 @@
-import Cookies from "js-cookie";
 import {
   CreateProduct,
+  DeleteProduct,
   Products,
   UpdateProduct,
 } from "../types/products";
@@ -26,25 +26,21 @@ export const deleteProduct = async (id: number) => {
 };
 
 export const updateProduct = async (id: number, data: UpdateProduct) => {
-  const response = await fetch(`http://localhost:3000/products/${id}`, {
+  return await fetchWithToken(`http://localhost:3000/products/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
   });
-  if (!response.ok) throw new Error("Network response was not ok");
-  return response.json();
 };
 
 export const createProduct = async (data: CreateProduct) => {
-  const response = await fetch(`http://localhost:3000/products`, {
+  return await fetchWithToken("http://localhost:3000/products", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
   });
-  if (!response.ok) throw new Error("Network response was not ok");
-  return response.json();
 };
