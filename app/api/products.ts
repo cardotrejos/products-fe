@@ -11,18 +11,9 @@ export const getAllProducts = async (): Promise<Products> => {
 };
 
 export const deleteProduct = async (id: number) => {
-  const token = Cookies.get("token");
-
-  if (!token) throw new Error("No token provided");
-
-  const response = await fetch(`http://localhost:3000/products/${id}`, {
+  return await fetchWithToken(`http://localhost:3000/products/${id}`, {
     method: "DELETE",
-    headers: {
-      Authorization: token,
-    },
   });
-  if (!response.ok) throw new Error("Network response was not ok");
-  return id;
 };
 
 export const updateProduct = async (id: number, data: UpdateProduct) => {
