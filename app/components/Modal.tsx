@@ -1,8 +1,10 @@
+import { Product } from "../types/products";
 import Form from "./Form";
 
-const Modal = ({openModal, handleModal}: {
+const Modal = ({openModal, handleModal, initialProduct}: {
   openModal: boolean;
-  handleModal: () => void
+  handleModal: () => void;
+  initialProduct?: Partial<Product> | null;
 }) => {
   return (
     <dialog open={openModal}>
@@ -12,7 +14,7 @@ const Modal = ({openModal, handleModal}: {
             Add new product
           </h1>
           <div className="px-4 pb-4">
-            <Form />
+            <Form handleModal={handleModal} initialProduct={initialProduct}/>
           </div>
           <div className="border-t border-gray-300 flex justify-between items-center px-4 pt-2">
             <button type="button" className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={handleModal}>

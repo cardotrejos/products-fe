@@ -16,7 +16,7 @@ const Table = ({
 }: {
   products: Products | undefined;
   onDelete: (id: number) => void;
-  onEdit: (id: number, data: Product) => void;
+  onEdit: (data: Product) => void;
 }) => {
   const columnHelper = createColumnHelper<Product>();
 
@@ -47,7 +47,7 @@ const Table = ({
             </button>
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              onClick={() => onEdit(info.row.original.id, info.row.original)}
+              onClick={() => onEdit(info.row.original)}
             >
               Edit
             </button>
