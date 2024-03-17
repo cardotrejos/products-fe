@@ -1,18 +1,34 @@
 "use client";
-import React, { useState, useEffect } from "react";
 import Table from "../components/Table";
 import Form from "../components/Form";
-import { useQuery } from "@tanstack/react-query";
-import { getAllProducts } from "../api/products";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteProduct, getAllProducts } from "../api/products";
+import Modal from "../components/Modal";
+import { useState } from "react";
 
 const ProductsPage = () => {
+  const [openModal, setModal] = useState<boolean>(false);
+
+  const handleModal = () => {
+    setModal(!openModal);
+  }
+
+  const queryClient = useQueryClient();
+
   const { data: products, error, isError, isLoading } = useQuery({
     queryKey: ["products"],
     queryFn: getAllProducts,
   });
 
-  const onDelete = async (id: any) => {
-    console.log("id", id);
+  const { mutate } = useMutation({
+    mutationFn: deleteProduct,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+    },
+  })
+
+  const onDelete = (id: any) => {
+    mutate(id);
   }
 
   if (isLoading) {
@@ -26,8 +42,9 @@ const ProductsPage = () => {
   return (
     <div>
       <h1>Products</h1>
+      <button onClick={handleModal}>Open modal</button>
       <Table products={products} onDelete={onDelete} />
-      <Form />
+      <Modal openModal={openModal} handleModal={handleModal} />
     </div>
   );
 };
