@@ -11,7 +11,7 @@ const Modal = ({openModal, handleModal, initialProduct}: {
       <div className="fixed top-0 left-0 w-full h-full bg-slate-600 bg-opacity-90 flex justify-center items-center">
         <div className="w-1/2 bg-slate-800 shadow-lg py-2 rounded-md">
           <h1 className="text-2xl font-semibold text-gray-200 mb-6 border-b border-gray-300 px-4 py-2">
-            Add new product
+            {initialProduct ? "Edit product" : "Create product"}
           </h1>
           <div className="px-4 pb-4">
             <Form handleModal={handleModal} initialProduct={initialProduct}/>

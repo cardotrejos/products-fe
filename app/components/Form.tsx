@@ -48,7 +48,7 @@ const Form = ({
       createProduct(data as CreateProduct);
     }
     handleModal();
-    reset();
+    reset({ name: "", description: "", price: 0 });
   };
 
   return (

@@ -7,17 +7,17 @@ import {
 import { fetchWithToken } from "./apiUtils";
 
 export const getAllProducts = async (): Promise<Products> => {
-  return await fetchWithToken("http://localhost:3000/products");
+  return await fetchWithToken(`${process.env.NEXT_PUBLIC_BE_API_DEV}/products/`);
 };
 
 export const deleteProduct = async (id: number) => {
-  return await fetchWithToken(`http://localhost:3000/products/${id}`, {
+  return await fetchWithToken(`${process.env.NEXT_PUBLIC_BE_API_DEV}/products/${id}`, {
     method: "DELETE",
   });
 };
 
 export const updateProduct = async (id: number, data: UpdateProduct) => {
-  return await fetchWithToken(`http://localhost:3000/products/${id}`, {
+  return await fetchWithToken(`${process.env.NEXT_PUBLIC_BE_API_DEV}/products/${id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -27,7 +27,7 @@ export const updateProduct = async (id: number, data: UpdateProduct) => {
 };
 
 export const createProduct = async (data: CreateProduct) => {
-  return await fetchWithToken("http://localhost:3000/products", {
+  return await fetchWithToken(`${process.env.NEXT_PUBLIC_BE_API_DEV}/products`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

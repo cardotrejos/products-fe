@@ -8,7 +8,7 @@ export interface LoginCredentials {
 }
 
 export const login = async ({ username, password }: LoginCredentials): Promise<LoginResponse> => {
-  const response = await fetch("http://localhost:3000/auth/login", {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BE_API_DEV}/auth/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
